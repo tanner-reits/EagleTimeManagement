@@ -7,7 +7,13 @@ namespace EagleTimeManagement.Models
 {
     public class TimeCardPeriod
     {
-        private int ID { get; set; }
-        private string range { get; set; }
+        public int ID { get; private set; }
+        public string range { get; private set; }
+
+        public TimeCardPeriod(int ID, string range)
+        {
+            this.ID    = ID;
+            this.range = range;
+        }
     }
 }

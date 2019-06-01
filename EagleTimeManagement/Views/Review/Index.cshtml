@@ -1,8 +1,14 @@
-﻿
+﻿@model List<EagleTimeManagement.Models.TimeCardPeriod>
+
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>Index</h1>
+
+@foreach(TimeCardPeriod period in Model)
+{
+    <h4>@period.ID </h4>
+}
 
