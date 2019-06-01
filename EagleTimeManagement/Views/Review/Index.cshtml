@@ -1,14 +1,24 @@
-﻿@model List<EagleTimeManagement.Models.TimeCardPeriod>
+﻿@model IEnumerable<EagleTimeManagement.Models.TimeCardPeriod>
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<link rel="stylesheet" href="~/css/Review.css" />
 
-@foreach(TimeCardPeriod period in Model)
-{
-    <h4>@period.ID </h4>
-}
+<h1>Review Pay Periods</h1>
+
+<div id="customer-selector">
+    @Html.DropDownList(
+        "DateRange",
+        new SelectList(
+           Model.Select(x => new { Value = x.ID, Text = x.range }),
+           "Value",
+           "Text"
+        ),
+        "Select Date Range",
+        new { @class = "form-control" }
+    )
+</div>
 
