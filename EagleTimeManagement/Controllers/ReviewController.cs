@@ -35,5 +35,10 @@ namespace EagleTimeManagement.Controllers
             // Pass array as model to view
             return View(periods);
         }
+
+        public List<TimeCardEntry> GetTimeCardEntries(int timePeriodID)
+        {
+            return null;
+        }
     }
 }
