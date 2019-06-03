@@ -1,0 +1,11 @@
+﻿:root {
+    --eagle-color-primary: #225D9F;
+    --eagle-color-secondary: #A63D09;
+    --eagle-color-tertiary: #919191;
+
+    --eagle-primary-shade: #366BA7;
+    --eagle-secondary-shade: #ADADAD;
+
+    --eagle-font-headings: 'Oswald', sans-serif; 
+    --eagle-font-content: 'Raleway', sans-serif;
+}
