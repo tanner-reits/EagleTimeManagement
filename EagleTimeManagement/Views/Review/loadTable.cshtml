@@ -1,0 +1,35 @@
+﻿@using System.Data.SqlClient
+
+@model List<EagleTimeManagement.Models.TimeCardEntry>
+
+
+
+@if (Model.Count > 0)
+{
+    <table id="entries-table">
+        <tr>
+            <th>Date</th>
+            <th>Project</th>
+            <th>Station</th>
+            <th>Labor Code</th>
+            <th>Hours</th>
+        </tr>
+
+        <tbody>
+            @foreach (var entry in Model)
+            {
+                <tr>
+                    <td>@entry.date</td>
+                    <td>@entry.project</td>
+                    <td>@entry.station</td>
+                    <td>@entry.laborCode</td>
+                    <td>@entry.hours</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h6>No Entries for this pay period</h6>
+}
