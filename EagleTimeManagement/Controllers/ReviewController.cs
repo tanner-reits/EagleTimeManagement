@@ -36,5 +36,38 @@ namespace EagleTimeManagement.Controllers
             // Pass array as model to view
             return View(periods);
         }
+
+        public IActionResult loadTable (int id)
+        {
+            SqlConnection conn = new SqlConnection(Startup.connectionString);
+            conn.Open();
+
+            SqlCommand getEntries = new SqlCommand("csp0334GetTimecardEntries", conn)
+            {
+                CommandType = System.Data.CommandType.StoredProcedure
+            };
+            getEntries.Parameters.AddWithValue("@EmployeeID", 103);
+            getEntries.Parameters.AddWithValue("@TimePeriodID", id);
+
+            var data = getEntries.ExecuteReader();
+
+            var entries = new List<TimeCardEntry>();
+            while (data.Read())
+            {
+                entries.Add(new TimeCardEntry()
+                {
+                    date = data.GetString(data.GetOrdinal("Date")),
+                    project = data.GetString(data.GetOrdinal("Project")),
+                    station = data.GetString(data.GetOrdinal("Station")),
+                    laborCode = data.GetString(data.GetOrdinal("LaborCode")),
+                    hours = data.GetDecimal(data.GetOrdinal("Hours"))
+                });
+            }
+
+            conn.Close();
+            data.Close();
+
+            return PartialView(entries);
+        }
     }
 }
