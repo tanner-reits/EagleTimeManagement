@@ -27,19 +27,36 @@
     }
 
     conn.Close();
-
-    foreach(var entry in entries)
-    {
-        <p>@entry.date</p>
-    }
+    data.Close();
 }
 
-@*<table>
-    <thead>
 
-    </thead>
+@if (entries.Count > 0)
+{
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Project</th>
+            <th>Station</th>
+            <th>Labor Code</th>
+            <th>Hours</th>
+        </tr>
 
-    <tbody>
-
-    </tbody>
-</table>*@
+        <tbody>
+            @foreach (var entry in entries)
+            {
+                <tr>
+                    <td>@entry.date</td>
+                    <td>@entry.project</td>
+                    <td>@entry.station</td>
+                    <td>@entry.laborCode</td>
+                    <td>@entry.hours</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h6>No Entries for this pay period</h6>
+}

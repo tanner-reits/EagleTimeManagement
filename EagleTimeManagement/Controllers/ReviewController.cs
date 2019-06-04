@@ -31,6 +31,7 @@ namespace EagleTimeManagement.Controllers
 
             // Close connection to database
             conn.Close();
+            periodRdr.Close();
 
             // Pass array as model to view
             return View(periods);
