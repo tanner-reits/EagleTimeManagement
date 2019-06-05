@@ -12,5 +12,13 @@ namespace EagleTimeManagement.Controllers
         {
             return View();
         }
+
+        public IActionResult VerifyCredentials()
+        {
+            // Route to home page on success
+            return Redirect("/Home");
+
+            // Else route back to Login
+        }
     }
 }

@@ -5,7 +5,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h4>Welcome! Please log in with Total ETO credentials to continue.</h4>
+<h1>Welcome!</h1>
+<h4>Please log in with Total ETO credentials to continue.</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -22,7 +23,7 @@
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Login" class="btn btn-primary" />
+                <input type="submit" value="Login" class="btn btn-primary" asp-controller="Login" asp-action="VerifyCredentials" />
             </div>
         </form>
     </div>
