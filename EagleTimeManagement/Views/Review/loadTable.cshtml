@@ -1,35 +1,52 @@
-﻿@using System.Data.SqlClient
+﻿@model IEnumerable<EagleTimeManagement.Models.TimeCardEntry>
 
-@model List<EagleTimeManagement.Models.TimeCardEntry>
-
-
-
-@if (Model.Count > 0)
+@if (Model.Count() > 0)
 {
-    <table id="entries-table">
-        <tr>
-            <th>Date</th>
-            <th>Project</th>
-            <th>Station</th>
-            <th>Labor Code</th>
-            <th>Hours</th>
-        </tr>
-
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.project)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.station)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.laborCode)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.hours)
+                </th>
+            </tr>
+        </thead>
         <tbody>
-            @foreach (var entry in Model)
-            {
-                <tr>
-                    <td>@entry.date</td>
-                    <td>@entry.project</td>
-                    <td>@entry.station</td>
-                    <td>@entry.laborCode</td>
-                    <td>@entry.hours</td>
-                </tr>
-            }
+    @foreach (var item in Model)
+    {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.project)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.station)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.laborCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.hours)
+                </td>
+            </tr>
+    }
         </tbody>
     </table>
 }
 else
 {
-    <h6>No Entries for this pay period</h6>
+    <h6>No Entries for this time period</h6>
 }

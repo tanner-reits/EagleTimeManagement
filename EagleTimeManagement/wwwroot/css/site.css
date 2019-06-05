@@ -1,11 +1,14 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+@import "Variables.css";
+
 /* GENERAL */
 html {
     font-size: 14px;
     position: relative;
     min-height: 100%;
+    font-family: var(--eagle-font-content);
 }
 
 
