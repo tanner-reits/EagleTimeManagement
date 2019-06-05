@@ -9,9 +9,11 @@
 
         if (ddlText == 'Select Date Range') {
             span.innerHTML = '';
+            $('#data-table').hide();
         }
         else {
             span.innerHTML = 'Showing entries for ' + ddlText;
+            $('#data-table').show();
 
             $.ajax({
                 type: "GET",
