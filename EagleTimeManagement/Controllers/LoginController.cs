@@ -20,6 +20,12 @@ namespace EagleTimeManagement.Controllers
         [HttpPost]
         public IActionResult VerifyCredentials(UserCredentials creds)
         {
+            // Show validation messages if invalid form data
+            if(!ModelState.IsValid)
+            {
+                return View("Index");
+            }
+
             SqlConnection conn = new SqlConnection(Startup.connectionString);
             conn.Open();
 
