@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Questica.ETO.Framework;
 using System.Data.SqlClient;
 using EagleTimeManagement.Models;
@@ -40,7 +41,7 @@ namespace EagleTimeManagement.Controllers
                     FirstName  = loginRdr.GetString(loginRdr.GetOrdinal("EmpFirstName"))
                 };
 
-                //Session["Employee"] = emp;
+                
 
                 conn.Close();
                 loginRdr.Close();
