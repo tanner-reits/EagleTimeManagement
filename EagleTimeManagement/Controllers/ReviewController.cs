@@ -17,9 +17,7 @@ namespace EagleTimeManagement.Controllers
             conn.Open();
 
             // Call stored procedure to get all timecard periods and date ranges
-            SqlCommand getPeriods = new SqlCommand("csp0334GetTimecardPeriods", conn) {
-                CommandType = System.Data.CommandType.StoredProcedure
-            };
+            SqlCommand getPeriods = new SqlCommand("csp0334GetTimecardPeriods", conn);
             SqlDataReader periodRdr = getPeriods.ExecuteReader();
 
             // Create list of TimeCardPeriods
