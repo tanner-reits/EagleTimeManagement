@@ -1,7 +1,7 @@
 ﻿@model EagleTimeManagement.Models.UserCredentials
 
 @{
-    ViewData["Title"] = "View";
+    ViewData["Title"] = "Login";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -9,7 +9,7 @@
 <h4>Please log in with Total ETO credentials to continue.</h4>
 <hr />
 <div class="row">
-    @using (Html.BeginForm("VerifyCredentials", "Login"))
+    @using (Html.BeginForm("Authenticate", "Login"))
     {
         <div class="form-group">
             @Html.LabelFor(m => m.Username)

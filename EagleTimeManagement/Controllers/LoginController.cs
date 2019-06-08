@@ -18,7 +18,7 @@ namespace EagleTimeManagement.Controllers
         }
 
         [HttpPost]
-        public IActionResult VerifyCredentials(UserCredentials creds)
+        public IActionResult Authenticate(UserCredentials creds)
         {
             // Show validation messages if invalid form data
             if(!ModelState.IsValid)
