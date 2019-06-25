@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using EagleTimeManagement.Models;
 
 namespace EagleTimeManagement.Controllers
@@ -12,6 +13,7 @@ namespace EagleTimeManagement.Controllers
     {
         public IActionResult Index()
         {
+            ViewData["EmpName"] = HttpContext.Session.GetString("EmpName");
             return View();
         }
 

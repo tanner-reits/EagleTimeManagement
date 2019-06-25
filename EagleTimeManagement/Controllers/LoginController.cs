@@ -47,7 +47,8 @@ namespace EagleTimeManagement.Controllers
                     FirstName  = loginRdr.GetString(loginRdr.GetOrdinal("EmpFirstName"))
                 };
 
-                
+                HttpContext.Session.SetString("EmpName", emp.FirstName);
+                HttpContext.Session.SetInt32("EmpID", emp.EmployeeID);
 
                 conn.Close();
                 loginRdr.Close();
@@ -60,6 +61,14 @@ namespace EagleTimeManagement.Controllers
             loginRdr.Close();
 
             // Else route back to Login
+            return Redirect("/Login");
+        }
+
+        public IActionResult Logout()
+        {
+            // Clear all session variables
+            HttpContext.Session.Clear();
+
             return Redirect("/Login");
         }
     }
