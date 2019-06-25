@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Questica.ETO.Framework;
 using System.Data.SqlClient;
 using EagleTimeManagement.Models;
@@ -17,8 +18,14 @@ namespace EagleTimeManagement.Controllers
         }
 
         [HttpPost]
-        public IActionResult VerifyCredentials(UserCredentials creds)
+        public IActionResult Authenticate(UserCredentials creds)
         {
+            // Show validation messages if invalid form data
+            if(!ModelState.IsValid)
+            {
+                return View("Index");
+            }
+
             SqlConnection conn = new SqlConnection(Startup.connectionString);
             conn.Open();
 
@@ -40,7 +47,8 @@ namespace EagleTimeManagement.Controllers
                     FirstName  = loginRdr.GetString(loginRdr.GetOrdinal("EmpFirstName"))
                 };
 
-                //Session["Employee"] = emp;
+                HttpContext.Session.SetString("EmpName", emp.FirstName);
+                HttpContext.Session.SetInt32("EmpID", emp.EmployeeID);
 
                 conn.Close();
                 loginRdr.Close();
@@ -53,6 +61,14 @@ namespace EagleTimeManagement.Controllers
             loginRdr.Close();
 
             // Else route back to Login
+            return Redirect("/Login");
+        }
+
+        public IActionResult Logout()
+        {
+            // Clear all session variables
+            HttpContext.Session.Clear();
+
             return Redirect("/Login");
         }
     }
