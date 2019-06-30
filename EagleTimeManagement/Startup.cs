@@ -51,7 +51,7 @@ namespace EagleTimeManagement
             services.AddSession(options =>
             {
                 options.Cookie.Name = ".Eagle.TimeManagement";
-                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.IdleTimeout = TimeSpan.FromMinutes(20);
                 options.Cookie.IsEssential = true;
             });
         }
