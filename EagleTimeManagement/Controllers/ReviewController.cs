@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Data.SqlClient;
 using EagleTimeManagement.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace EagleTimeManagement.Controllers
 {
@@ -12,6 +13,14 @@ namespace EagleTimeManagement.Controllers
     {
         public IActionResult Index()
         {
+            // Redirect user to login screen if not currently logged in
+            if (HttpContext.Session.GetInt32("EmpID") == null)
+            {
+                return Redirect("/login");
+            }
+
+            ViewData["EmpName"] = HttpContext.Session.GetString("EmpName");
+
             // Create and open connection to SQL database
             SqlConnection conn = new SqlConnection(Startup.connectionString);
             conn.Open();
@@ -44,7 +53,7 @@ namespace EagleTimeManagement.Controllers
             {
                 CommandType = System.Data.CommandType.StoredProcedure
             };
-            getEntries.Parameters.AddWithValue("@EmployeeID", 103);
+            getEntries.Parameters.AddWithValue("@EmployeeID", HttpContext.Session.GetInt32("EmpID"));
             getEntries.Parameters.AddWithValue("@TimePeriodID", id);
 
             var data = getEntries.ExecuteReader();
