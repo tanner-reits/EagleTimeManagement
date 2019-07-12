@@ -9,15 +9,16 @@ using Microsoft.AspNetCore.Http;
 
 namespace EagleTimeManagement.Controllers
 {
+    [AutoValidateAntiforgeryToken]
     public class ReviewController : Controller
     {
         public IActionResult Index()
         {
             // Redirect user to login screen if not currently logged in
-            if (HttpContext.Session.GetInt32("EmpID") == null)
-            {
-                return Redirect("/login");
-            }
+            //if (HttpContext.Session.GetInt32("EmpID") == null)
+            //{
+            //    return Redirect("/login");
+            //}
 
             ViewData["EmpName"] = HttpContext.Session.GetString("EmpName");
 
