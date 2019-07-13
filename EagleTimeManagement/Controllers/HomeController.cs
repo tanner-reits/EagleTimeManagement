@@ -9,12 +9,13 @@ using EagleTimeManagement.Models;
 
 namespace EagleTimeManagement.Controllers
 {
+    [AutoValidateAntiforgeryToken]
     public class HomeController : Controller
     {
         public IActionResult Index()
         {
             // Redirect user to login screen if not currently logged in
-            if(HttpContext.Session.GetInt32("EmpID") == null)
+            if (HttpContext.Session.GetInt32("EmpID") == null)
             {
                 return Redirect("/Login");
             }

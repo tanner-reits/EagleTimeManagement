@@ -10,6 +10,7 @@ using EagleTimeManagement.Models;
 
 namespace EagleTimeManagement.Controllers
 {
+    [AutoValidateAntiforgeryToken]
     public class LoginController : Controller
     {
         public IActionResult Index()
