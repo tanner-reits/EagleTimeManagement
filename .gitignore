@@ -341,3 +341,7 @@ healthchecksdb
 
 # Ignore appsettings/connection string
 appsettings.json
+
+\.vscode/launch\.json
+
+\.vscode/tasks\.json

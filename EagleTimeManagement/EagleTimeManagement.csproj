@@ -11,13 +11,12 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
-    <PackageReference Include="NUnit" Version="3.12.0" />
   </ItemGroup>
 
 
   <ItemGroup>
     <Reference Include="ETOFramework">
-      <HintPath>C:\Users\Tanner\Downloads\ETOFramework.dll</HintPath>
+      <HintPath>./ETOFramework.dll</HintPath>
     </Reference>
   </ItemGroup>
 
