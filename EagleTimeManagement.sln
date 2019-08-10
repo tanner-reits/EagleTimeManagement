@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28922.388
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EagleTimeManagement", "EagleTimeManagement\EagleTimeManagement.csproj", "{7A881719-DDE0-4725-87A8-BD3263C5985A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EagleTimeManagement", "EagleTimeManagement\EagleTimeManagement.csproj", "{7A881719-DDE0-4725-87A8-BD3263C5985A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EagleTimeManagement.Tests", "EagleTimeManagement.Tests\EagleTimeManagement.Tests.csproj", "{036E0D67-A5F4-49AE-8BA8-806370AB7062}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EagleTimeManagement.Tests", "EagleTimeManagement.Tests\EagleTimeManagement.Tests.csproj", "{036E0D67-A5F4-49AE-8BA8-806370AB7062}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EagleTM.Data", "EagleTM.Data\EagleTM.Data.csproj", "{E8CE1196-B255-4202-85CE-160F7BFB74F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{036E0D67-A5F4-49AE-8BA8-806370AB7062}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{036E0D67-A5F4-49AE-8BA8-806370AB7062}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{036E0D67-A5F4-49AE-8BA8-806370AB7062}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8CE1196-B255-4202-85CE-160F7BFB74F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8CE1196-B255-4202-85CE-160F7BFB74F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8CE1196-B255-4202-85CE-160F7BFB74F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8CE1196-B255-4202-85CE-160F7BFB74F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
