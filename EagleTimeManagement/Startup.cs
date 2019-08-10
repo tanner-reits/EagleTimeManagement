@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using EagleTimeManagement.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using EagleTM.Data;
 
 namespace EagleTimeManagement
 {
@@ -39,19 +40,22 @@ namespace EagleTimeManagement
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddDefaultIdentity<IdentityUser>()
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            // EF connection and allows for dependency injection of context into controllers
+            services.AddDbContext<QuesticaContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")));
+
 
             services.AddMvc(options =>
             {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-            });
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
 
             services.AddSession(options =>
             {

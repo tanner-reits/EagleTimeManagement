@@ -7,12 +7,19 @@ using Microsoft.AspNetCore.Http;
 using Questica.ETO.Framework;
 using System.Data.SqlClient;
 using EagleTimeManagement.Models;
+using EagleTM.Data;
 
 namespace EagleTimeManagement.Controllers
 {
-    [AutoValidateAntiforgeryToken]
     public class LoginController : Controller
     {
+        private readonly QuesticaContext context;
+
+        public LoginController(QuesticaContext context)
+        {
+            this.context = context;
+        }
+
         public IActionResult Index()
         {
             return View();

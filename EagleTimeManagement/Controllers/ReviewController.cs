@@ -6,19 +6,26 @@ using Microsoft.AspNetCore.Mvc;
 using System.Data.SqlClient;
 using EagleTimeManagement.Models;
 using Microsoft.AspNetCore.Http;
+using EagleTM.Data;
 
 namespace EagleTimeManagement.Controllers
 {
-    [AutoValidateAntiforgeryToken]
     public class ReviewController : Controller
     {
+        private readonly QuesticaContext context;
+
+        public ReviewController(QuesticaContext context)
+        {
+            this.context = context;
+        }
+
         public IActionResult Index()
         {
-            // Redirect user to login screen if not currently logged in
-            //if (HttpContext.Session.GetInt32("EmpID") == null)
-            //{
-            //    return Redirect("/login");
-            //}
+            Redirect user to login screen if not currently logged in
+            if (HttpContext.Session.GetInt32("EmpID") == null)
+            {
+                return Redirect("/login");
+            }
 
             ViewData["EmpName"] = HttpContext.Session.GetString("EmpName");
 
