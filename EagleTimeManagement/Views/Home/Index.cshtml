@@ -1,8 +1,228 @@
-﻿@{
-    ViewData["Title"] = "Home";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+﻿@model IEnumerable<EagleTM.Data.TblTimecards>
+
+@{
+    ViewData["Title"] = "Current Time Cards";
 }
 
-@using Microsoft.AspNetCore.Http;
+<link href="~/css/Home.css" rel="stylesheet" />
 
-<h1>Home</h1>
+<h1 class="text-center pb-5">Current Time Cards</h1>
+
+@if (ViewData["actionDone"] != null)
+{
+    if ((string)ViewData["actionDone"] == "edit")
+    {
+        <div class="alert alert-success alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h5 class="text-center">Your entry has been updated.</h5>
+        </div>
+    }
+
+    if ((string)ViewData["actionDone"] == "delete")
+    {
+        <div class="alert alert-warning alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h5 class="text-center">Your entry has been deleted.</h5>
+        </div>
+    }
+
+}
+
+@if (Model.Count() > 0)
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th class="table-head text-center">Date</th>
+                <th class="table-head text-center">Project</th>
+                <th class="table-head text-center">Station</th>
+                <th class="table-head text-center">Labor Code</th>
+                <th class="table-head text-center">Hours</th>
+                <th class="table-head text-center"></th>
+                <th class="table-head text-center"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr data-id="@item.TimeId" class="editTable">
+                    <td data-toggle="modal" data-target="#myModal" class="edit">
+                        @String.Format("{0:MM/dd/yyyy}", item.TimeDate)
+                    </td>
+                    <td data-toggle="modal" data-target="#myModal" class="edit">
+                        @Html.DisplayFor(modelItem => item.ProjectId) -
+                        @Html.DisplayFor(modelItem => item.TblProjects.Pdescription)
+                    </td>
+                    <td data-toggle="modal" data-target="#myModal" class="edit">
+                        @Html.DisplayFor(modelItem => item.SpecId) -
+                        @Html.DisplayFor(modelItem => item.TblSpec.Sdescription)
+                    </td>
+                    <td data-toggle="modal" data-target="#myModal" class="edit">
+                        @Html.DisplayFor(modelItem => item.HourType) -
+                        @Html.DisplayFor(modelItem => item.HourTypeNavigation.HourDescription)
+                    </td>
+                    <td data-toggle="modal" data-target="#myModal" class="edit">
+                        @Html.DisplayFor(modelItem => item.HourTime)
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-primary edit" value="Edit" name="Edit" data-toggle="modal" data-target="#myModal">Edit</button>
+                    </td>
+                    <td data-toggle="modal" data-target="#myModal">
+                        <input type="button" class="btn btn-danger delete" value="Delete" name="Delete" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+else
+{
+    <div class="pt-lg-5">
+        <h3 class="text-center pt-lg-5">There are no entries for the current time period. </h3>
+    </div>
+
+}
+
+<div class="modal fade" id="myModal" role="alertdialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-body">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+@*<div class="modal fade" id="myModal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>*@
+
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+
+        @*$("#Create").click(function () {
+            $id = 227330;
+            $id = parseInt($id);
+            console.log("id: ", $id);
+            $.ajax({
+                url: "@Url.Action("Create", "Home")",
+                data: { id: $id },
+                traditional: true,
+                success: function (result) {
+                    $(".modal-body").html(result);
+                    $("#myModal").show();
+                }
+            });
+
+        });*@
+
+        $(".delete").click(function () {
+            console.log("delete clicked");
+            $id = $(this).closest("tr").attr("data-id");
+            $id = parseInt($id);
+            console.log("id: " + $id);
+            $.ajax({
+                url: "/Home/DeleteConfirmation",
+                data: { id: $id },
+                traditional: true,
+                cache: false,
+                success: function (result) {
+                    $(".modal-body").html(result);
+                    $("#myModal").show();
+                }
+            });
+        });
+
+
+        $(".edit").click(function () {
+            getEditInfo($(this));
+        })
+
+        $(".reload").click(function () {
+            window.location.reload();
+        })
+
+        function getEditInfo(element) {
+            $id = element.closest("tr").attr("data-id");
+            $id = parseInt($id);
+            $.ajax({
+                url: "/Home/EditTimeCard",
+                data: { id: $id },
+                traditional: true,
+                cache: false,
+                success: function (result) {
+                    $(".modal-body").html(result);
+                    $("#myModal").show();
+                }
+            });
+        };
+
+        @* Removes data from the modal when it's hidden *@
+        $('.modal').on('hidden.bs.modal', function(e){
+            $(this).removeData();
+        });
+
+        $("#TimeCard_ProjectId").on("change", function () {
+            $list = $("#TimeCard_SpecId");
+            console.log("Triggered" );
+            $id = $("#TimeCard_ProjectId").val();
+            $id = parseInt($id);
+            console.log("id: " + $id);
+            $.ajax({
+                url: "/Home/PopulateStations",
+                data: { id: $id },
+                traditional: true,
+                success: function (result) {
+                    $list.empty();
+                    $list.append("<option> -- Choose a Station -- </option>");
+                    $.each(result, function (i, item) {
+                        $list.append('<option value="' + item.value + '"> ' + item.text + ' </option>');
+                    });
+                }
+            });
+        });
+
+        $("select").on("change", function () {
+            console.log("triggered");
+        });
+
+        //$(document).on("change", "#TimeCard_ProjectId", function(event){
+        //    $list = $("#TimeCard_SpecId");
+        //    $id = $("#TimeCard_ProjectId").val();
+        //    $id = parseInt($id);
+        //    console.log("Project id: " + $id);
+        //    console.log("Station id: " + $list.val());
+        //    $.ajax({
+        //        url: "/Home/PopulateStations",
+        //        data: { id: $id },
+        //        traditional: true,
+        //        success: function (result) {
+        //            console.log("here");
+        //            $list.empty();
+        //            $list.append("<option> -- Choose a Station -- </option>");
+        //            $.each(result, function (i, item) {
+        //                $list.append('<option value="' + item.value + '"> ' + item.text + ' </option>');
+        //            });
+        //        },
+        //        error: function () {
+        //            alert("error");
+        //        }
+        //    });
+        //});
+    });
+
+</script>
