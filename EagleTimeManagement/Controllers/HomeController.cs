@@ -20,10 +20,10 @@ namespace EagleTimeManagement.Controllers
         {
             this.context = context;
         }
+        
         public IActionResult Index(string actionDone)
         {
             // Redirect user to login screen if not currently logged in
-
             if (HttpContext.Session.GetInt32("EmpID") == null)
             {
                 return Redirect("/Login");
