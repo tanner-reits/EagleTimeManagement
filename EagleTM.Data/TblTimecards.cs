@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace EagleTM.Data
 {
@@ -11,11 +12,15 @@ namespace EagleTM.Data
         }
 
         public int TimeId { get; set; }
+        [Display(Name = "Date")]
         public DateTime TimeDate { get; set; }
         public int EmployeeId { get; set; }
         public int ProjectId { get; set; }
+        [Display(Name = "Station")]
         public double SpecId { get; set; }
+        [Display(Name = "Labor Code")]
         public int HourType { get; set; }
+        [Display(Name = "Hours")]
         public decimal HourTime { get; set; }
         public string HourDrawing { get; set; }
         public decimal HourRate { get; set; }
@@ -45,5 +50,7 @@ namespace EagleTM.Data
         public virtual TblSpec TblSpec { get; set; }
         public virtual TblTimecardHeader TimePeriod { get; set; }
         public virtual ICollection<TblTempTimecards> TblTempTimecards { get; set; }
+
+        public virtual TblProjects TblProjects{ get; set; }
     }
 }

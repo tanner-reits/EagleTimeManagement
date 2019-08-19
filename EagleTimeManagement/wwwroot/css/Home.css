@@ -1,0 +1,85 @@
+﻿/* Cell styles
+================================== */
+.Rtable-cell--dark {
+    background-color: slategrey;
+    border-color: #5a6673;
+    color: white;
+}
+
+    .Rtable-cell--dark > h1,
+    .Rtable-cell--dark > h2,
+    .Rtable-cell--dark > h3,
+    .Rtable-cell--dark > h4,
+    .Rtable-cell--dark > h5,
+    .Rtable-cell--dark > h6 {
+        color: white;
+    }
+
+
+
+
+
+.Rtable-cell--highlight {
+    background-color: lightgreen;
+    border-color: #64e764;
+}
+
+.Rtable-cell--alert {
+    background-color: darkorange;
+    border-color: #cc7000;
+    color: white;
+}
+
+    .Rtable-cell--alert > h1,
+    .Rtable-cell--alert > h2,
+    .Rtable-cell--alert > h3,
+    .Rtable-cell--alert > h4,
+    .Rtable-cell--alert > h5,
+    .Rtable-cell--alert > h6 {
+        color: white;
+    }
+
+
+
+.Rtable-cell--foot {
+    background-color: #b8c0c8;
+    border-color: #a9b3bc;
+}
+
+
+/******************************/
+
+.table-head {
+    background-color: slategrey;
+    border-color: #5a6673;
+    color: white;
+}
+
+    .table-head > h1,
+    .table-head > h2,
+    .table-head > h3,
+    .table-head > h4,
+    .table-head > h5,
+    .table-head > h6 {
+        color: white;
+    }
+
+.table-medium {
+    background-color: #b8c0c8;
+    border-color: #a9b3bc;
+}
+
+tr:nth-child(even) {
+    background-color: #b8c0c8;
+    border-color: #a9b3bc;
+}
+
+tr:nth-child(odd) {
+    background-color: white;
+    border-color: #e2e6e9;
+}
+
+tr:hover {
+    background-color: slategrey;
+    border-color: #64e764;
+}
