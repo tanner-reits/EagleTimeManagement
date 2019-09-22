@@ -6,13 +6,14 @@
 
 <link href="~/css/Home.css" rel="stylesheet" />
 
-<h1 class="text-center pb-5">Current Time Cards</h1>
+<h1 class="text-center pb-3">Current Time Cards</h1>
+
 
 @if (ViewData["actionDone"] != null)
 {
     if ((string)ViewData["actionDone"] == "edit")
     {
-        <div class="alert alert-success alert-dismissible" role="alert">
+        <div class="alert alert-info alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h5 class="text-center">Your entry has been updated.</h5>
         </div>
@@ -26,7 +27,23 @@
         </div>
     }
 
+    if ((string)ViewData["actionDone"] == "add")
+    {
+        <div class="alert alert-success alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h5 class="text-center">Your entry has been added.</h5>
+        </div>
+    }
+
 }
+
+
+
+<div class="container">
+    <div class="float-left float-right">
+        <button type="button" class="btn btn-success add btn-lg pl-5 pr-5 mb-3" value="Add" name="Add" data-toggle="modal" data-target="#myModal">Add</button>
+    </div>
+</div>
 
 @if (Model.Count() > 0)
 {
@@ -85,28 +102,13 @@ else
 }
 
 <div class="modal fade" id="myModal" role="alertdialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-body">
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-@*<div class="modal fade" id="myModal" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
             <div class="modal-body">
             </div>
         </div>
     </div>
-</div>*@
-
+</div>
 
 <script src="~/lib/jquery/dist/jquery.js"></script>
 
@@ -114,24 +116,7 @@ else
 <script>
     $(document).ready(function () {
 
-        @*$("#Create").click(function () {
-            $id = 227330;
-            $id = parseInt($id);
-            console.log("id: ", $id);
-            $.ajax({
-                url: "@Url.Action("Create", "Home")",
-                data: { id: $id },
-                traditional: true,
-                success: function (result) {
-                    $(".modal-body").html(result);
-                    $("#myModal").show();
-                }
-            });
-
-        });*@
-
         $(".delete").click(function () {
-            console.log("delete clicked");
             $id = $(this).closest("tr").attr("data-id");
             $id = parseInt($id);
             console.log("id: " + $id);
@@ -151,6 +136,19 @@ else
         $(".edit").click(function () {
             getEditInfo($(this));
         })
+
+        $(".add").click(function () {
+            $.ajax({
+                url: "/Home/AddTimeCard",
+                traditional: true,
+                cache: false,
+                success: function (result) {
+                    $(".modal-body").html(result);
+                    console.log(result);
+                    $("#myModal").show();
+                }
+            });
+        });
 
         $(".reload").click(function () {
             window.location.reload();
@@ -199,30 +197,6 @@ else
         $("select").on("change", function () {
             console.log("triggered");
         });
-
-        //$(document).on("change", "#TimeCard_ProjectId", function(event){
-        //    $list = $("#TimeCard_SpecId");
-        //    $id = $("#TimeCard_ProjectId").val();
-        //    $id = parseInt($id);
-        //    console.log("Project id: " + $id);
-        //    console.log("Station id: " + $list.val());
-        //    $.ajax({
-        //        url: "/Home/PopulateStations",
-        //        data: { id: $id },
-        //        traditional: true,
-        //        success: function (result) {
-        //            console.log("here");
-        //            $list.empty();
-        //            $list.append("<option> -- Choose a Station -- </option>");
-        //            $.each(result, function (i, item) {
-        //                $list.append('<option value="' + item.value + '"> ' + item.text + ' </option>');
-        //            });
-        //        },
-        //        error: function () {
-        //            alert("error");
-        //        }
-        //    });
-        //});
     });
 
 </script>
