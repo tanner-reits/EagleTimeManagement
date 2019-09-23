@@ -5,15 +5,15 @@
 	TimePeriodID int not null,
 	TimeDate datetime not null, 
 	ProjectID int FOREIGN KEY REFERENCES tblProjects(ProjectID) not null,
-	SpecID float FOREIGN KEY REFERENCES tblSpec(SpecID) not null,
+	SpecID float not null,
 	HourType int FOREIGN KEY REFERENCES tlkpHourTypes(HourType) not null,
 	HourTime decimal(20, 6) not null, 
 	OnRoad bit,
 	CreatedDate datetime null,
 	EditedDate datetime null,
-	[Add] bit not null,
-	[Edit] bit not null,
-	[Delete] bit not null
+	[Add] bit null,
+	[Edit] bit null,
+	[Delete] bit null
 );
 
 

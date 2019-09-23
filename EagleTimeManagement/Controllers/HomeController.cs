@@ -21,6 +21,7 @@ namespace EagleTimeManagement.Controllers
             this.context = context;
         }
         
+        // TODO: Add on road 
         public IActionResult Index(string actionDone)
         {
             // Redirect user to login screen if not currently logged in
@@ -37,8 +38,8 @@ namespace EagleTimeManagement.Controllers
             /// ///////////////////////////////////////////////////////////
             //int empId = 77;
 
-            int empId = (int) HttpContext.Session.GetInt32("EmpID");
-            
+            int empId = (int)HttpContext.Session.GetInt32("EmpID");
+
             // Get the active pay period 
             var activePayPeriod = context.TblTimecardHeader.Where(x => x.Validated == false).Select(x => x.TimePeriodId).FirstOrDefault();
 
@@ -320,6 +321,96 @@ namespace EagleTimeManagement.Controllers
         public IActionResult Add()
         {
             return View("Index");
+        }
+
+
+        public IActionResult AddTimeCard()
+        {
+            var newTimecard = new TblTimecards();
+
+            EditViewModel editModel = new EditViewModel();
+
+            // Convert the timecard to an editVM
+            editModel.TimeCard = newTimecard;
+
+            // Get the start and end dates
+            var payPeriodDates = context.TblTimecardHeader.Where(x => x.Validated == false).Select(x => new { x.PayPeriodStartDate, x.PayPeriodEndDate }).ToList();
+            editModel.DateRange = editModel.PopulateDatesInPayPeriod(payPeriodDates[0].PayPeriodStartDate, payPeriodDates[0].PayPeriodEndDate);
+
+            // Populate the select list items with the projects, stations, and labor codes from the database and assign to VM
+            var projects = context.TblProjects.Select(x => new SelectListItem
+            {
+                Text = $@"{ x.ProjectId.ToString() } - { x.Pdescription.Substring(0, Math.Min(x.Pdescription.ToString().Length, 50)) }",
+                Value = x.ProjectId.ToString()
+            }).ToList();
+
+            //projects.Insert(0, new SelectListItem { Text = "-- Select a Project --", Value = "" , Disabled = true});
+
+            var stations = context.TblSpec.Where(x => x.ProjectId == editModel.TimeCard.ProjectId).Select(x => new SelectListItem
+            {
+                Text = $@"{ x.SpecId.ToString() } - { x.Sdescription }",
+                Value = x.SpecId.ToString()
+            }).ToList();
+
+            //stations.Insert(0, new SelectListItem { Text = "-- Select a Station --", Value = "", Selected = true });
+
+
+            var hours = context.TlkpHourTypes.Select(x => new SelectListItem
+            {
+                Text = $@"{ x.HourType.ToString() } - { x.HourDescription }",
+                Value = x.HourType.ToString()
+            }).ToList();
+
+            //hours.Insert(0, new SelectListItem { Text = "-- Select a Labor Code --", Value = "" , Disabled = true});
+            
+            editModel.Projects = projects;
+            editModel.Stations = stations;
+            editModel.LaborCodes = hours;
+
+            return PartialView("AddTimeCard", editModel);
+
+        }
+
+        public IActionResult CreateNewTimeCard(EditViewModel editModel)
+        {
+            TblTempTimecards tempTableTimeCard = new TblTempTimecards();
+
+            // Get current time id
+            var tempLastId = context.TblTempTimecards.Select(x => x.TimeId).LastOrDefault();
+            var liveLastId = context.TblTimecards.Select(x => x.TimeId).LastOrDefault();
+            int currentTimeId = Math.Max(tempLastId, liveLastId) + 1;
+
+            // Get current pay period id
+            var activePayPeriod = context.TblTimecardHeader.Where(x => x.Validated == false).Select(x => x.TimePeriodId).FirstOrDefault();
+
+            // Create tempTimeCard 
+            tempTableTimeCard.EmployeeId = (int)HttpContext.Session.GetInt32("EmpID");
+            tempTableTimeCard.TimeId = currentTimeId;
+            tempTableTimeCard.TimePeriodId = activePayPeriod;
+            tempTableTimeCard.TimeDate = editModel.TimeCard.TimeDate;
+            tempTableTimeCard.ProjectId = editModel.TimeCard.ProjectId;
+            tempTableTimeCard.SpecId = editModel.TimeCard.SpecId;
+            tempTableTimeCard.HourType = editModel.TimeCard.HourType;
+            tempTableTimeCard.HourTime = editModel.TimeCard.HourTime;
+            tempTableTimeCard.CreatedDate = DateTime.UtcNow;
+            tempTableTimeCard.Add = true;
+            tempTableTimeCard.Edit = false;
+            tempTableTimeCard.Delete = false;
+
+
+            // Add tempTimeCard to database
+            try
+            {
+                context.TblTempTimecards.Add(tempTableTimeCard);
+                context.SaveChanges();
+            }
+            catch(Exception ex)
+            {
+
+            }
+
+            // Return to Index view, with add confirmation box 
+            return RedirectToAction("Index", new { actionDone = "add" });
         }
 
 

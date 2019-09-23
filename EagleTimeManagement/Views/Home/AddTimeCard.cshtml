@@ -1,0 +1,96 @@
+﻿@model EagleTimeManagement.Models.EditViewModel
+
+@{
+    ViewData["Title"] = "Add Time Card";
+}
+
+<h3 class="text-center">Add Time Card</h3>
+<div class="container-fluid">
+
+
+    <form asp-action="CreateNewTimeCard">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-group">
+            <div class="form-group">
+                <input type="hidden" asp-for="TimeCard.TimeId" />
+            </div>
+            <div class="form-group">
+                <input type="hidden" asp-for="TimeCard.TimePeriodId" />
+            </div>
+            <div class="form-group">
+                <label asp-for="TimeCard.TimeDate" class="control-label">Date</label>
+                <select asp-for="TimeCard.TimeDate" class="form-control" asp-items="Model.DateRange">
+                    <option disabled hidden selected>-- Select Date --</option>
+                </select>
+                <span asp-validation-for="TimeCard.TimeDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TimeCard.ProjectId" class="control-label">Project</label>
+                <select asp-for="TimeCard.ProjectId" class="form-control" asp-items="Model.Projects" id="project_test">
+                    <option disabled hidden selected>-- Select Project --</option>
+                </select>
+                <span asp-validation-for="TimeCard.ProjectId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TimeCard.SpecId" class="control-label">Station</label>
+                <select asp-for="TimeCard.SpecId" class="form-control" asp-items="Model.Stations" id="station_test">
+                    <option disabled hidden selected>-- Select Station --</option>
+                </select>
+                <span asp-validation-for="TimeCard.SpecId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TimeCard.HourType" class="control-label">Labor Code</label>
+                <select asp-for="TimeCard.HourType" class="form-control" asp-items="Model.LaborCodes">
+                    <option disabled hidden selected>-- Select Labor Code --</option>
+                </select>
+                <span asp-validation-for="TimeCard.HourType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TimeCard.HourTime" class="control-label">Hours</label>
+                <input asp-for="TimeCard.HourTime" class="form-control"  placeholder="Hours"/>
+                <span asp-validation-for="TimeCard.HourTime" class="text-danger"></span>
+            </div>
+            <div class="text-center">
+                <input type="submit" value="Add" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-light">Cancel</a>
+            </div>
+
+
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script>
+    $(document).ready(function () {
+        $(document).on("change", "#project_test", function (event) {
+            $list = $("#station_test");
+            $id = $("#project_test").val();
+            $id = parseInt($id);
+            console.log("Project id: " + $id);
+            console.log("Station id: " + $list.val());
+            $.ajax({
+                url: "/Home/PopulateStations", data: { id: $id }, traditional: true, cache: false,
+                success: function (result) {
+                    console.log("here");
+                    $list.empty();
+                    $list.append("<option> -- Choose a Station -- </option>");
+                    $.each(result, function (i, item) {
+                        $list.append('<option value="' + item.value + '"> ' + item.text + ' </option>');
+
+                    });
+
+                },
+                error: function () {
+                    alert("error");
+                }
+            });
+        });
+    });
+
+
+</script>
